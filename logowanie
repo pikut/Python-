@@ -1,0 +1,19 @@
+while True:
+
+  login = input("Login:")
+  while not login:
+    login = input("Login:")
+
+  password = input("Hasło:")
+  while not password:
+    password = input("Hasło:")
+  
+  if login == "pikut" and password == "sekret":
+    print("Witaj, ", login)
+    break
+  
+  else:
+    print("Nieprawidłowe dane. Spróbuj ponownie.")
+    
+print("\nMożemy teraz przejsć dalej.\n")
+input("Aby zakończyć, wcisnij Enter.")
