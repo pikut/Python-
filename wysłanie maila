@@ -1,0 +1,20 @@
+import smtplib
+
+to = input("Odbiorca: ")
+user = input("Nadawca: ")
+pw = input("Hasło nadawcy: ")
+serwer = smtplib.SMTP("smtp.gmail.com", 587)
+
+serwer.ehlo()
+serwer.starttls()
+serwer.ehlo()
+
+serwer.login(user, pw)
+
+msg = input("Wpisz wiadomość: ")
+
+serwer.sendmail(user, to, msg)
+
+print("Wysłano.")
+
+serwer.close()
