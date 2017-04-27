@@ -11,7 +11,12 @@ serwer.ehlo()
 
 serwer.login(user, pw)
 
-msg = input("Wpisz wiadomość: ")
+msg = """From: From Person <mail_adres>
+To: To Person <mail_adres>
+Subject: w koncu z tematem
+
+Wiadomosc bez polskich znakow!
+"""
 
 serwer.sendmail(user, to, msg)
 
