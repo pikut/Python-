@@ -1,19 +1,30 @@
 import smtplib
 
-to = input("Odbiorca: ")
-user = input("Nadawca: ")
-pw = input("Hasło nadawcy: ")
-serwer = smtplib.SMTP("smtp.gmail.com", 587)
+print("\nWitaj w programie, dzięki któremu wyślesz maila ze swojego konta Gmail.com.\n")
+input("Aby wysłać maila, zaloguj się na swoje konto. Wciśnij Enter, aby przejść do logowania.\n")
 
-serwer.ehlo()
-serwer.starttls()
-serwer.ehlo()
+while True:
 
-serwer.login(user, pw)
+    user = input("Login: ")
+    pw = input("Hasło: ")
+    serwer = smtplib.SMTP("smtp.gmail.com", 587)
+
+    serwer.ehlo()
+    serwer.starttls()
+    serwer.ehlo()
+
+    try:
+        serwer.login(user, pw)
+        break
+    except smtplib.SMTPAuthenticationError:
+        print("\nNie udało się zalogować, spróbuj ponownie.\n")
+
+print("\nZalogowałeś się na swoje konto. Witaj,",user,"!")
+to = input("\nWpisz adres odbiorcy: ")
 
 body = """From: From Person <mail_adres>
 To: To Person <mail_adres>
-Subject: w koncu z tematem
+Subject: W koncu z tematem
 
 """
 
@@ -21,6 +32,33 @@ msg = input("Wpisz wiadomość: ")
 
 serwer.sendmail(user, to, body+msg)
 
-print("Wysłano.")
+print("Wiadomość została wysłana.")
+
+odp = input("\nCzy chcesz wysłać kolejną wiadomość z tego samego konta?")
+
+if odp == "tak":
+    while odp == "tak":
+        to = input("\nWpisz adres odbiorcy: ")
+
+        body = """From: From Person <mail_adres>
+        To: To Person <mail_adres>
+        Subject: W koncu z tematem
+
+        """
+
+        msg = input("Wpisz wiadomość: ")
+
+        serwer.sendmail(user, to, body + msg)
+
+        print("Wiadomość została wysłana.")
+
+        odp = input("\nCzy chcesz wysłać kolejną wiadomość z tego samego konta?")
+        if odp == "nie":
+            break
+
+elif odp == "nie":
+    serwer.close()
+    print("Zostałeś wylogowany.")
 
 serwer.close()
+print("Zostałeś wylogowany.")
