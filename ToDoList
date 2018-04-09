@@ -21,7 +21,7 @@ exit = True
 while exit:
     
     task = input('\nCo masz do zrobienia?\n')
-    priorytet = input('Czy', task 'ma wysoki priorytet? !! - tak: ')
+    priorytet = input('Czy', task, 'ma wysoki priorytet? !! - tak: ')
     
     if priorytet == '!!':
         print('Zadanie', task, 'zostało dodane do listy priorytetów.')
