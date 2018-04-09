@@ -8,3 +8,29 @@ while exit:
     task = input('\nCo masz do zrobienia?\n')
     ToDoList.append(task)
     print(ToDoList)
+
+lub
+
+print('---Wpitaj w prostym programie ToDoList!---')
+
+ToDoList = []
+priorytetList = []
+priorytet = '!!'
+exit = True
+
+while exit:
+    
+    task = input('\nCo masz do zrobienia?\n')
+    priorytet = input('Czy', task 'ma wysoki priorytet? !! - tak: ')
+    
+    if priorytet == '!!':
+        print('Zadanie', task, 'zostało dodane do listy priorytetów.')
+        priorytetList.append(task)
+    else:
+        print('Zadanie', task, 'zostało dodane do zwykłej listy.')
+        ToDoList.append(task)
+    
+    
+    
+    
+    print(ToDoList)
