@@ -1,0 +1,41 @@
+print('---Witaj w prostym programie ToDoList!---')
+
+ToDoList = []
+priorytetList = []
+priorytet = '!!'
+choise = input('''\t\t---MENU---
+\n\tDodaj zadanie[1]
+\tWyświetl listę zwykłych zadań[2]
+\tWyświetl listę priorytetowych zadań[3]
+\tWyświetl listę wszystkich zadań[4]
+                                            ''')
+if choise == '1':
+
+  while exit:
+    
+    
+    task = input('\nCo masz do zrobienia?\n')
+    priorytet = input('\nCzy %s ma wysoki priorytet? !! - tak: ' % (task))
+    
+    if priorytet == '!!':
+        print('Zadanie', task, 'zostało dodane do listy priorytetów.')
+        priorytetList.append(task)
+        choise = int(input('Chcesz dodać kolejne zadanie? Tak[1] Menu[5] '))
+        if choise == 1:
+          continue
+        elif choise == 5:
+          
+          
+    else:
+        print('Zadanie', task, 'zostało dodane do zwykłej listy.')
+        ToDoList.append(task)
+        choise = int(input('Chcesz dodać kolejne zadanie? Tak[1] Menu[5] '))
+        if choise == 1:
+          continue
+        elif choise == 5:
+    
+    
+    
+    
+print('\nAktualna lista zwykłych zadań', ToDoList)
+print('Aktualna lista zadań priorytetowych', priorytetList)
