@@ -10,24 +10,28 @@ def menuToDoList():
     print('Wyświetl listę priorytetową [2]')
     print('Wyświetl zwykłą listę [3]')
     print('Wyświetl listę wszystkich zadań [4]')
+    print('Zamknij aplikację [5]')
     choise = input('Wybieram: ')
     if choise == '1':
         addTask()
     elif choise == '2':
         print('Aktualna lista priorytetowa to: ', priorytetList)
-        input('Wciśniej Enter, aby wrócić do MENU')
+        input('\tWciśniej Enter, aby wrócić do MENU')
         menuToDoList()
     elif choise == '3':
         print('Aktualna lista zwykłych zadań to: ', ToDoList)
-        input('Wciśniej Enter, aby wrócić do MENU')
+        input('\tWciśniej Enter, aby wrócić do MENU')
         menuToDoList()
     elif choise == '4':
         print('Aktualna lista wszystkch zadań to: ', priorytetList, ToDoList)
-        input('Wciśniej Enter, aby wrócić do MENU')
+        input('\tWciśniej Enter, aby wrócić do MENU')
         menuToDoList()
+    elif choise == '5':
+        input('\tAby zakończyć pracę programu, wciśnij Enter.')
+
     else:
         print('Nie wybrałeś żadnej z dostępnych opcji, wybierz jeszcze raz!')
-        input('Wciśniej Enter, aby kontynuować')
+        input('\tWciśniej Enter, aby kontynuować')
         menuToDoList()
 
 
@@ -35,7 +39,7 @@ def addTask():
     task = input('\nCo masz do zrobienia?\n')
     priorytet = input('\nCzy %s ma wysoki priorytet? !! - tak: ' % (task))
     if priorytet == '!!':
-        print('Zadanie', task, 'zostało dodane do listy priorytetów.')
+        print('\tZadanie', task, 'zostało dodane do listy priorytetów.')
         priorytetList.append(task)
         option = int(input('''Dodaj kolejne zadanie [1]
 Wróć do menu [2]\n'''))
@@ -44,7 +48,7 @@ Wróć do menu [2]\n'''))
         elif option ==2:
             menuToDoList()
     else:
-        print('Zadanie', task, 'zostało dodane do zwykłej listy.')
+        print('\tZadanie', task, 'zostało dodane do zwykłej listy.')
         ToDoList.append(task)
         option = int(input('''Dodaj kolejne zadanie [1]
 Wróć do menu [2]\n'''))
