@@ -15,11 +15,23 @@ def menuToDoList():
     if choise == '1':
         addTask()
     elif choise == '2':
-        print('Aktualna lista priorytetowa to: ', priorytetList)
+        with open('//Users//Dominik//Desktop//ToDoList//listaTxt.txt', 'r') as file:
+            for line in file:
+                if '!!' in line:
+                    print(line)
+                else:
+                    continue
+        #print('Aktualna lista priorytetowa to: ', priorytetList)
         input('\tWciśniej Enter, aby wrócić do MENU')
         menuToDoList()
     elif choise == '3':
-        print('Aktualna lista zwykłych zadań to: ', ToDoList)
+        with open('//Users//Dominik//Desktop//ToDoList//listaTxt.txt', 'r') as file:
+            for line in file:
+                if not '!!' in line:
+                    print(line)
+                else:
+                    continue
+        #print('Aktualna lista zwykłych zadań to: ', ToDoList)
         input('\tWciśniej Enter, aby wrócić do MENU')
         menuToDoList()
     elif choise == '4':
