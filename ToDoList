@@ -23,7 +23,11 @@ def menuToDoList():
         input('\tWciśniej Enter, aby wrócić do MENU')
         menuToDoList()
     elif choise == '4':
-        print('Aktualna lista wszystkch zadań to: ', priorytetList, ToDoList)
+        #otwarcie pliku z listą wszytskich zadań
+        with open('//Users//Dominik//Desktop//ToDoList//listaTxt.txt', 'r') as file:
+            content = file.read()
+            print(content)
+        #print('Aktualna lista wszystkch zadań to: ', priorytetList, ToDoList)
         input('\tWciśniej Enter, aby wrócić do MENU')
         menuToDoList()
     elif choise == '5':
@@ -38,15 +42,13 @@ def menuToDoList():
 def addTask():
     task = input('\nCo masz do zrobienia?\n')
     priorytet = input('\nCzy %s ma wysoki priorytet? !! - tak: ' % (task))
-    
     if priorytet == '!!':
         print('\tZadanie', task, 'zostało dodane do listy priorytetów.')
         priorytetList.append(task)
         #dodawanie listy do pliku
-        #listaTxt = open('plikTxt', 'a')
-        #listaTxt.write(task)
-        #listaTxt.close()
-        
+        listaTxt = open('listaTxt.txt', 'a+')
+        listaTxt.write(task+'[!!]'+'\n')
+        listaTxt.close()
         option = int(input('''Dodaj kolejne zadanie [1]
 Wróć do menu [2]\n'''))
         if option == 1:
@@ -57,10 +59,9 @@ Wróć do menu [2]\n'''))
         print('\tZadanie', task, 'zostało dodane do zwykłej listy.')
         ToDoList.append(task)
         #dodawanie listy do pliku
-        #listaTxt = open('plikTxt', 'a')
-        #listaTxt.write(task)
-        #listaTxt.close()
-        
+        listaTxt = open('listaTxt.txt', 'a+')
+        listaTxt.write(task+'\n')
+        listaTxt.close()
         option = int(input('''Dodaj kolejne zadanie [1]
 Wróć do menu [2]\n'''))
         if option == 1:
