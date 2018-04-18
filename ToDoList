@@ -38,9 +38,15 @@ def menuToDoList():
 def addTask():
     task = input('\nCo masz do zrobienia?\n')
     priorytet = input('\nCzy %s ma wysoki priorytet? !! - tak: ' % (task))
+    
     if priorytet == '!!':
         print('\tZadanie', task, 'zostało dodane do listy priorytetów.')
         priorytetList.append(task)
+        #dodawanie listy do pliku
+        #listaTxt = open('plikTxt', 'a')
+        #listaTxt.write(task)
+        #listaTxt.close()
+        
         option = int(input('''Dodaj kolejne zadanie [1]
 Wróć do menu [2]\n'''))
         if option == 1:
@@ -50,6 +56,11 @@ Wróć do menu [2]\n'''))
     else:
         print('\tZadanie', task, 'zostało dodane do zwykłej listy.')
         ToDoList.append(task)
+        #dodawanie listy do pliku
+        #listaTxt = open('plikTxt', 'a')
+        #listaTxt.write(task)
+        #listaTxt.close()
+        
         option = int(input('''Dodaj kolejne zadanie [1]
 Wróć do menu [2]\n'''))
         if option == 1:
