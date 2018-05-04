@@ -1,0 +1,86 @@
+import tkinter
+
+root = tkinter.Tk()
+root.title('Moja aplikacja')
+root.geometry('300x600')
+
+tasks = []
+
+def Add():
+    task = entryText.get()
+    if task == '':
+        komunikat = ('Proszę dodać zadanie!')
+        emptySpace['text'] = komunikat
+    mainBox.insert('end', task)
+    tasks.append(task)
+    entryText.delete(0, 'end')
+##    Zapisanie zadania do pliku
+##    fileApp = open('fileApp.txt', 'a+')
+##    fileApp.write(task + '\n')
+##    fileApp.close()
+
+def ToDoList():
+##    clear_box()
+##    for task in tasks:
+##        mainBox.insert('end', task)
+    #wyświetlanie listy z pliku
+##    mainBox.delete(0, 'end')
+##    with open('C:\\Users\\pikut\\Desktop\\fileApp.txt', 'r') as file:
+##        for line in file:
+##            mainBox.insert('end', line)
+    update_box()
+
+def Delete():
+    task = mainBox.get('active')
+    if task in tasks:
+        tasks.remove(task)
+        update_box()
+
+#dodane czyszczenie okna
+def deleteAll():
+    mainBox.delete(0, 'end')
+
+def clear_box():
+    mainBox.delete(0, 'end')
+    #próba stworzenia czystego pliku
+    fileApp = open('fileApp.txt', 'w')
+    fileApp.close()
+
+def update_box():
+    clear_box()
+    for task in tasks:
+        mainBox.insert('end', task)
+    ##Zapisanie zadania do pliku
+    #for task in tasks:        
+        
+        fileApp = open('fileApp.txt', 'a+')
+        fileApp.write(task + '\n')
+        fileApp.close()
+        
+
+justText = tkinter.Label(root, text ='-MENU-')
+justText.pack()
+
+emptySpace = tkinter.Label(root, text ='')
+emptySpace.pack()
+
+entryText = tkinter.Entry(root, width = 15)
+entryText.pack()
+
+bttnAdd = tkinter.Button(root, text = 'Dodaj', command = Add)
+bttnAdd.pack()
+
+bttnToDoList = tkinter.Button(root, text = 'Wyświetl zadania', command = ToDoList)
+bttnToDoList.pack()
+
+bttnDelete = tkinter.Button(root, text = 'Usuń', command = Delete)
+bttnDelete.pack()
+
+#dodanie czyszczenie okna
+bttn_deleteAll = tkinter.Button(root, text = 'Wyczyść okno', width = 13, command = deleteAll)
+bttn_deleteAll.pack()
+
+mainBox = tkinter.Listbox()
+mainBox.pack()
+
+root.mainloop()
