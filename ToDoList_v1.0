@@ -1,7 +1,7 @@
 import tkinter
 
 root = tkinter.Tk()
-root.title('Moja aplikacja')
+root.title('ToDoList v1.0')
 root.geometry('300x450')
 
 #tworzę kontener do przechowywania danych podczas uruchomienia palikacji
@@ -30,7 +30,6 @@ def Add():
 
 def ShowTheList():
     deleteAll()
-    #tasks = [] musiałem to zakomentować, bo przez to kontener był zawsze pusty
     #otworam plik, dodając każdą linię jako task/line do listy i boxu
     with open ('//Users//Dominik//Desktop//fileApp.txt', 'r') as file:
         for line in file:
@@ -43,7 +42,6 @@ def Delete():
         tasks.remove(task)
     update_box()
 
-#to też nie działa!!!!!!!!!!!!!!!!!!!!
 def update_box():
     deleteAll()
     fileApp = open('fileApp.txt', 'w')
@@ -64,8 +62,6 @@ def PokazKontener():
     deleteAll()
     for task in tasks:
         mainBox.insert('end', task)
-
-
 
 justText = tkinter.Label(root, text ='-MENU-')
 justText.pack()
@@ -93,8 +89,8 @@ bttn_deleteAll = tkinter.Button(root, text = 'Wyczyść okno', width = 13, comma
 bttn_deleteAll.pack()
 
 
-emptySpace = tkinter.Label(root, text ='')
-emptySpace.pack()
+emptySpace2 = tkinter.Label(root, text ='')
+emptySpace2.pack()
 
 mainBox = tkinter.Listbox()
 mainBox.pack()
