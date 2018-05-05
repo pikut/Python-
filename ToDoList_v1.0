@@ -63,6 +63,31 @@ def PokazKontener():
     for task in tasks:
         mainBox.insert('end', task)
 
+#tworzę okienko do pisania notatek do zadań
+def Notatki():
+    root2 = tkinter.Tk()
+    root2.title('Dodaj notatkę')
+    root2.geometry('700x450')
+
+    def Zapisz():
+        notatka_ = bttnWriteTheText.get("1.0",'end')
+        notesApp = open('notesApp.txt', 'a+')
+        notesApp.write(notatka_)
+        notesApp.close()
+        bttnNotatki.deselect()
+        
+
+    bttnWriteTheText = tkinter.Text(root2)
+    bttnWriteTheText.pack()
+
+    bttnSave = tkinter.Button(root2, text = 'Zapisz', width = 13, command = Zapisz)
+    bttnSave.pack()
+
+    bttn_exit = tkinter.Button(root2, text = 'Wyjdz', width = 13, command = exit)
+    bttn_exit.pack()
+    
+    root2.mainloop()
+
 justText = tkinter.Label(root, text ='-MENU-')
 justText.pack()
 
@@ -72,8 +97,15 @@ emptySpace.pack()
 entryText = tkinter.Entry(root, width = 15)
 entryText.pack()
 
+#dodaje opcję pisania notatek do zadań
+bttnNotatki = tkinter.Checkbutton(root, text = 'Notatki', command = Notatki)
+bttnNotatki.pack()
+
 bttnAdd = tkinter.Button(root, text = 'Dodaj', width = 13,command = Add)
 bttnAdd.pack()
+
+bttnDelete = tkinter.Button(root, text = 'Usuń', width = 13, command = Delete)
+bttnDelete.pack()
 
 ##bttnShowTheList = tkinter.Button(root, text = 'Wyświetl zadania', width = 13,command = ShowTheList)
 ##bttnShowTheList.pack()
@@ -82,12 +114,8 @@ bttnAdd.pack()
 bttnPokazKontener = tkinter.Button(root, text = 'Pokaż kontener', width = 13,command = PokazKontener)
 bttnPokazKontener.pack()
 
-bttnDelete = tkinter.Button(root, text = 'Usuń', width = 13,command = Delete)
-bttnDelete.pack()
-
 bttn_deleteAll = tkinter.Button(root, text = 'Wyczyść okno', width = 13, command = deleteAll)
 bttn_deleteAll.pack()
-
 
 emptySpace2 = tkinter.Label(root, text ='')
 emptySpace2.pack()
