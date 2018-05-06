@@ -1,0 +1,155 @@
+import tkinter
+
+root = tkinter.Tk()
+root.title('ToDoList v1.0')
+root.geometry('300x450')
+
+#tworzę kontener do przechowywania danych podczas uruchomienia palikacji
+tasks = []
+
+def Add():
+    #pobieram zadanie
+    task = entryText.get()
+    if task == '':
+        komunikat = ('Proszę dodać zadanie!')
+        emptySpace['text'] = komunikat
+    #jeśli zadanie znajduje się na liście, nie dodawaj go ponownie
+    elif task in tasks:
+        komunikat = ('%s znajduje się już na liście!' % (task))
+        emptySpace['text'] = komunikat
+    #dodaję zadanie do pudełka    
+    else:
+        mainBox.insert('end', task)
+        #dodaję zadanie do kontenera
+        tasks.append(task)
+        entryText.delete(0, 'end')
+        #zapisuję zadanie do pliku
+        fileApp = open('fileApp.txt', 'a')
+        fileApp.write(task + '\n')
+        fileApp.close()
+
+def ShowTheList():
+    deleteAll()
+    #otworam plik, dodając każdą linię jako task/line do listy i boxu
+    with open ('//Users//Dominik//Desktop//fileApp.txt', 'r') as file:
+        for line in file:
+            tasks.append(line)
+            mainBox.insert('end', line)
+
+def Delete():
+    task = mainBox.get('active')
+    if task in tasks:
+        tasks.remove(task)
+    update_box()
+
+def update_box():
+    deleteAll()
+    fileApp = open('fileApp.txt', 'w')
+    fileApp.close()
+    for task in tasks:
+        mainBox.insert('end', task)
+#Zapisanie aktualnej listy zadań, po usunięciu wybranych        
+        fileApp = open('fileApp.txt', 'a')
+        fileApp.write(task + '\n')
+        fileApp.close()
+
+def deleteAll():
+    #dodane czyszczenie okna
+    mainBox.delete(0, 'end')
+
+#dodatkowa funkcja do sprawdzania zawartości kontenera
+def PokazKontener():
+    deleteAll()
+    for task in tasks:
+        mainBox.insert('end', task)
+        
+#############################################################
+#tworzę okienko do pisania notatek do zadań
+#############################################################
+def Notatki():
+    root2 = tkinter.Tk()
+    root2.title('Dodaj notatkę')
+    root2.geometry('700x450')
+
+    #spróbuję otworzyć z pliku zapisane notatki, prawdopodobnie potrzeba operatorów Listbox oraz Text
+
+
+    def Zapisz():
+        notatka_ = bttnWriteTheText.get("1.0",'end')
+        notesApp = open('notesApp.txt', 'a+')
+        notes = mainBox.get('active')
+        notesApp.write('\t' + notes + notatka_)
+        notesApp.close()
+        #bttnNotatki.deselect() - bo wywaliłem checkbutton
+
+    emptySpace = tkinter.Label(root, text ='')
+    emptySpace.pack()
+        
+    bttnWriteTheText = tkinter.Text(root2)
+    bttnWriteTheText.pack()
+
+    bttnSave = tkinter.Button(root2, text = 'Zapisz', width = 13, command = Zapisz)
+    bttnSave.pack()
+
+    bttn_exit = tkinter.Button(root2, text = 'Wyjdz', width = 13, command = exit)
+    bttn_exit.pack()
+    
+    root2.mainloop()
+    
+#############################################################
+#próbuję otworzyć okienko notatek do wybranek zadania z listy
+#############################################################
+def openNotes():
+    notes = mainBox.get('active')
+    Notatki()
+
+
+
+
+
+
+
+
+justText = tkinter.Label(root, text ='-MENU-')
+justText.pack()
+
+emptySpace = tkinter.Label(root, text ='')
+emptySpace.pack()
+
+entryText = tkinter.Entry(root, width = 15)
+entryText.pack()
+
+#dodaje opcję pisania notatek do zadań - zastąpiłem to przyciskiem 'otwórz'
+#bttnNotatki = tkinter.Checkbutton(root, text = 'Notatki', command = Notatki)
+#bttnNotatki.pack()
+
+bttnAdd = tkinter.Button(root, text = 'Dodaj', width = 13,command = Add)
+bttnAdd.pack()
+
+bttnDelete = tkinter.Button(root, text = 'Usuń', width = 13, command = Delete)
+bttnDelete.pack()
+
+#dodałem przycisk otwierajacy notatki do danego zadania z listy
+bttnOpenNotes = tkinter.Button(root, text ='Otwórz', width = 13, command = openNotes)
+bttnOpenNotes.pack()
+
+##bttnShowTheList = tkinter.Button(root, text = 'Wyświetl zadania', width = 13,command = ShowTheList)
+##bttnShowTheList.pack()
+
+#dodatkowy przycisk pokazujący zawartość kontenera
+bttnPokazKontener = tkinter.Button(root, text = 'Pokaż kontener', width = 13,command = PokazKontener)
+bttnPokazKontener.pack()
+
+bttn_deleteAll = tkinter.Button(root, text = 'Wyczyść okno', width = 13, command = deleteAll)
+bttn_deleteAll.pack()
+
+emptySpace2 = tkinter.Label(root, text ='')
+emptySpace2.pack()
+
+mainBox = tkinter.Listbox()
+mainBox.pack()
+
+#autmatycznie ładuje zawartość pliku przy uruchomieniu aplikacji
+ShowTheList()
+
+root.mainloop()
