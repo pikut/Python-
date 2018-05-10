@@ -1,0 +1,136 @@
+import tkinter
+
+#tworzenie okna głównego aplikacji
+root = tkinter.Tk()
+root.title('Moja aplikacja')
+
+#tworzę kontener do przechowywania danych podczas uruchomienia palikacji
+tasks = []
+
+#tworzę funkcje aplikacji
+def Add():
+    #pobieram zadanie
+    task = entryText.get()
+    if task == '':
+        komunikat = ('Proszę dodać zadanie!')
+        emptySpace['text'] = komunikat
+    #jeśli zadanie znajduje się na liście, nie dodawaj go ponownie
+    elif task in tasks:
+        komunikat = ('%s znajduje się już na liście!' % (task))
+        emptySpace['text'] = komunikat
+    #dodaję zadanie do pudełka    
+    else:
+        mainBox.insert('end', task)
+        #dodaję zadanie do kontenera
+        tasks.append(task)
+        entryText.delete(0, 'end')
+        #zapisuję zadanie do pliku
+        fileApp = open('fileApp.txt', 'a')
+        fileApp.write(task + '\n')
+        fileApp.close()
+
+def ShowTheList():
+    deleteAll()
+    #otworam plik, dodając każdą linię jako task/line do listy i boxu
+    with open ('//Users//Dominik//Desktop//fileApp.txt', 'r') as file:
+        for line in file:
+            tasks.append(line)
+            mainBox.insert('end', line)
+
+def Delete():
+    task = mainBox.get('active')
+    if task in tasks:
+        tasks.remove(task)
+    update_box()
+
+def update_box():
+    deleteAll()
+    fileApp = open('fileApp.txt', 'w')
+    fileApp.close()
+    for task in tasks:
+        mainBox.insert('end', task)
+#Zapisanie aktualnej listy zadań, po usunięciu wybranych        
+        fileApp = open('fileApp.txt', 'a')
+        fileApp.write(task + '\n')
+        fileApp.close()
+
+def deleteAll():
+    #dodane czyszczenie okna
+    mainBox.delete(0, 'end')
+
+#dodatkowa funkcja do sprawdzania zawartości kontenera
+def pokazKontener():
+    deleteAll()
+    for task in tasks:
+        mainBox.insert('end', task)
+
+##################WERSJA TESTOWA Z DODAWANIEM NOTATEK###################
+def zapisz():
+    notatka_ = spaceToText.get("1.0",'end')
+    notesApp = open('notesApp.txt', 'a+')
+    notes = mainBox.get('active')
+    notesApp.write('\n' +'\t' + notes + notatka_)
+    notesApp.close()
+    notatka_ = spaceToText.delete('1.0', 'end')
+
+def openNote():
+    notatka_ = spaceToText.delete('1.0', 'end')
+    notes = mainBox.get('active')
+    cos = ('\n')
+    with open('notesApp.txt', 'r+') as file:
+        for line in file:
+            if notes in line:
+                spaceToText.insert('end', line)
+########################################################################
+
+#tworzenie ramek w oknie głównym aplikacji, ich kolor i wielkość
+topFrame = tkinter.Frame(root, bg='red', width =750, height=40)
+leftFrame = tkinter.Frame(root, bg='pink', width=150, height=400)
+centerFrame = tkinter.Frame(root, bg='yellow', width =300, height=400)
+rightFrame = tkinter.Frame(root, bg='brown', width=300, height=400)                         
+bottomFrame = tkinter.Frame(root, bg='blue', width =750, height=40)
+
+#umiejscowienie ramek
+topFrame.grid(row=0, columnspan=3)
+leftFrame.grid(row=1,rowspan=40,column=0)
+centerFrame.grid(row=1,rowspan=40,column=1)
+rightFrame.grid(row=1,rowspan=40, column=2)
+bottomFrame.grid(row=41, columnspan=3)
+
+#tworzenie przycisków
+#lewa kolumna
+justText = tkinter.Label(root, text = '-MENU-', background='pink')
+emptySpace = tkinter.Label(root, text = '', background='pink')
+entryText = tkinter.Entry(root, width=15, highlightbackground='pink')
+bttnAdd = tkinter.Button(root, text = 'Dodaj', width=13, highlightbackground='pink', command = Add)
+bttnDelete = tkinter.Button(root, text = 'Usuń', width=13, highlightbackground='pink', command = Delete)
+bttnOpenNotes = tkinter.Button(root, text = 'Otwórz', width=13, highlightbackground='pink', command = openNote)
+bttnPokazKontener = tkinter.Button(root, text = 'Pokaż kontener', width=13, highlightbackground='pink', command = pokazKontener)
+bttnDeleteAll = tkinter.Button(root, text = 'Wyczyść okno', width=13, highlightbackground='pink', command = deleteAll)
+bttnSave = tkinter.Button(root, text = 'Zapisz', width = 13, highlightbackground='pink', command = zapisz)
+#środkowa kolumna
+mainBox = tkinter.Listbox(background='grey')
+#prawa kolumna
+spaceToText = tkinter.Text(width=38, height=24)
+
+#umiejscowienie przycisków
+#lewa kolumna
+justText.grid( row=1,column=0)
+emptySpace.grid( row=2,column=0)
+entryText.grid( row=3,column=0)
+bttnAdd.grid( row=4,column=0)
+bttnDelete.grid( row=5,column=0)
+bttnOpenNotes.grid( row=6,column=0)
+bttnPokazKontener.grid( row=7,column=0)
+bttnDeleteAll.grid( row=8,column=0)
+bttnSave.grid(row=9, column=0)
+#środkowa kolumna
+mainBox.grid( row=1, column=1, rowspan=40, sticky='news', pady=10, padx=10)
+#prawa kolumna
+spaceToText.grid( row=1, column=2, rowspan=40, pady=10, padx=10, sticky='news')
+
+#autmatycznie ładuje zawartość pliku przy uruchomieniu aplikacji
+ShowTheList()
+
+#główna pętla programu
+root.mainloop()
