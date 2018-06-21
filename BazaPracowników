@@ -1,0 +1,121 @@
+import tkinter
+import sqlite3
+
+root = tkinter.Tk()
+root.title('ToDoList v2.0')
+#root.geometry('300x450')
+
+def Add():
+    #dodaj zadanie do bazy danych
+    id_ = entryText1.get()
+    entryText1.delete(0, 'end')
+
+    name = entryText.get()
+    entryText.delete(0, 'end')
+
+    lastName = entryText2.get()
+    entryText2.delete(0, 'end')
+
+    phone = entryText3.get()
+    entryText3.delete(0, 'end')
+    
+    
+    con = sqlite3.connect('test.db')
+    cur = con.cursor()
+
+    cur.execute('INSERT INTO tasks VALUES (?, ?, ?, ?);', (None, name, lastName, phone))
+    con.commit()
+
+    PokazZadania()
+
+
+def Delete():
+    #usuń po wybranym ID
+    con = sqlite3.connect('test.db')
+    cur = con.cursor()
+
+    id_ = entryText1.get()
+    entryText1.delete(0, 'end')
+
+    cur.execute('DELETE FROM tasks WHERE id=?', (id_,))
+    con.commit()
+
+    PokazZadania()
+
+    
+def deleteAll():
+    #czyszczenie okna
+    mainBox.delete(0, 'end')
+
+def PokazZadania():
+    #wyświetl bazę danych
+    deleteAll()
+
+    con = sqlite3.connect('test.db')
+    cur = con.cursor()
+
+    cur.execute(
+        '''
+        SELECT * FROM tasks;
+        ''')
+    tasks_ = cur.fetchall()
+    for task in tasks_:
+        mainBox.insert('end', task)
+
+
+#tworzę przyciski
+justText = tkinter.Label(root, text ='-MENU-')
+justText.pack()
+
+emptySpace = tkinter.Label(root, text ='')
+emptySpace.pack()
+
+justText1 = tkinter.Label(root, text ='ID:')
+justText1.pack()
+
+entryText1 = tkinter.Entry(root, width = 15)
+entryText1.pack()
+
+justText2 = tkinter.Label(root, text ='Imię:')
+justText2.pack()
+
+entryText = tkinter.Entry(root, width = 15)
+entryText.pack()
+
+justText3 = tkinter.Label(root, text ='Nazwisko:')
+justText3.pack()
+
+entryText2 = tkinter.Entry(root, width = 15)
+entryText2.pack()
+
+justText4 = tkinter.Label(root, text ='Telefon:')
+justText4.pack()
+
+entryText3 = tkinter.Entry(root, width = 15)
+entryText3.pack()
+
+emptySpace = tkinter.Label(root, text ='')
+emptySpace.pack()
+
+bttnAdd = tkinter.Button(root, text = 'Dodaj', width = 13,command = Add)
+bttnAdd.pack()
+
+bttnDelete = tkinter.Button(root, text = 'Usuń', width = 13, command = Delete)
+bttnDelete.pack()
+
+bttnPokazKontener = tkinter.Button(root, text = 'Pokaż zadania', width = 13,command = PokazZadania)
+bttnPokazKontener.pack()
+
+bttn_deleteAll = tkinter.Button(root, text = 'Wyczyść okno', width = 13, command = deleteAll)
+bttn_deleteAll.pack()
+
+emptySpace = tkinter.Label(root, text ='')
+emptySpace.pack()
+
+mainBox = tkinter.Listbox(width=38, height=24)
+mainBox.pack()
+
+#załaduj bazę danych podczas uruchamiania aplikacji
+PokazZadania()
+#pętla głownego okienka
+root.mainloop()
