@@ -1,0 +1,57 @@
+import tkinter
+from tkinter import ttk
+import sqlite3
+
+root = tkinter.Tk()
+root.title('EmployeesList v2.0')
+
+tree = ttk.Treeview(root, selectmode='browse')
+tree.pack(side='left')
+
+scroll = ttk.Scrollbar(root, orient="vertical", command=tree.yview)
+scroll.pack(side='right', fill='y')
+
+tree.configure(yscrollcommand=scroll.set)
+
+tree['columns'] = ('1','2','3','4','5','6',)
+tree.column('1', width=30)
+tree.column('2', width=150)
+tree.column('3', width=150)
+tree.column('4', width=150)
+tree.column('5', width=100)
+tree.column('6', width=100)
+tree.heading('1', text ='ID')
+tree.heading('2', text ='Imię i nazwisko')
+tree.heading('3', text ='telefon')
+tree.heading('4', text ='obiekt')
+tree.heading('5', text ='rozpoczęcie')
+tree.heading('6', text ='zakończenie')
+
+
+
+con = sqlite3.connect('test.db')
+cur = con.cursor()
+
+cur.execute(
+
+    '''
+
+    SELECT id,
+    name || ' ' || lastName AS
+    employee,
+    phone, obiekt,
+    start_day || '-' || start_month || '-' || start_year AS
+    start,
+    stop_day || '-' || stop_month || '-' || stop_year AS
+    stop
+    
+    FROM employees;
+
+    ''')
+
+tasks_ = cur.fetchall()
+for task in tasks_:
+    tree.insert('','end', values = (task))
+
+
+root.mainloop()
