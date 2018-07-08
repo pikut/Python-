@@ -1,9 +1,8 @@
 import tkinter
 from tkinter import ttk
-import sqlite3
 
 root = tkinter.Tk()
-root.title('EmployeesList v2.0')
+root.title('EmployeesList (beta)')
 
 tree = ttk.Treeview(root, selectmode='browse')
 tree.pack(side='left')
@@ -26,32 +25,5 @@ tree.heading('3', text ='telefon')
 tree.heading('4', text ='obiekt')
 tree.heading('5', text ='rozpoczęcie')
 tree.heading('6', text ='zakończenie')
-
-
-
-con = sqlite3.connect('test.db')
-cur = con.cursor()
-
-cur.execute(
-
-    '''
-
-    SELECT id,
-    name || ' ' || lastName AS
-    employee,
-    phone, obiekt,
-    start_day || '-' || start_month || '-' || start_year AS
-    start,
-    stop_day || '-' || stop_month || '-' || stop_year AS
-    stop
-    
-    FROM employees;
-
-    ''')
-
-tasks_ = cur.fetchall()
-for task in tasks_:
-    tree.insert('','end', values = (task))
-
 
 root.mainloop()
